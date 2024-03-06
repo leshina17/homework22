@@ -1,0 +1,8 @@
+[
+{
+  "directory": "D:/iip/22.01/homework22/build",
+  "command": "C:\\msys64\\mingw32\\bin\\g++.exe  -std=c++17 -g -o CMakeFiles\\main.dir\\main.cpp.obj -c D:\\iip\\22.01\\homework22\\main.cpp",
+  "file": "D:\\iip\\22.01\\homework22\\main.cpp",
+  "output": "CMakeFiles\\main.dir\\main.cpp.obj"
+}
+]
