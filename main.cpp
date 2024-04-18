@@ -27,7 +27,7 @@ void print_matrix(double** arr, double* b, int n){
         for (int j=0; j<n; j++){
             cout << arr[i][j] << " ";
         }
-        cout << " |x " << i << "|" << b[i] << endl; //строка завершается символом перехода на новую строчку
+        cout <<  "|" << b[i] << endl; //строка завершается символом перехода на новую строчку
     }
 }
 
@@ -41,7 +41,7 @@ void matrix_write(double** arr, double* b, int n){
     } //ввод чисел
     cout << "write vector b: " << endl;
     for (int i=0; i<n; i++){
-        cout << "b[" << i+1 << "]:";
+        cout << "b:[" << i+1 << "]:";
         cin >> b[i];
     }
 }
@@ -54,9 +54,9 @@ void checka(double** arr, double* x, double* check, int n){
     }
 }
 
-void pogresha(double** arr, double* check, double* pogresh, int n){
+void pogresha(double* b, double* check, double* pogresh, int n){
     for (int i=0; i<n; i++){
-        pogresh[i]=arr[i][n]-check[i];
+        pogresh[i]=b[i]-check[i];
     }
 }
 
@@ -95,10 +95,10 @@ void vector_nev(double** arr, double* b, double* x, double* nev, int n){
     for (int i=0; i<n; i++){
         nev[i]=b[i];
         for (int j=0; j<n; j++){
-            nev[i]-=arr[i][j]*x[j];
+            nev[i]-=arr[i][j]*x[i];
         }
     }
-}
+ }
 
 void print_vector_nev(double* nev, int n){
     for (int i=0; i<n; i++){
@@ -128,18 +128,18 @@ int main(){
     for (int i=0; i<n; i++){
         arr_copy[i]=new double[n];
         for (int j=0; j<n; j++){
-            arr[i][j]=arr_copy[i][j];
+            arr_copy[i][j]=arr[i][j];
         }
     }
     
     double* b_copy=new double[n];
     for (int i=0; i<n; i++){
-        b[i]=b_copy[i];
-    }
+        b_copy[i]=b[i];
+    }    
     
     int c;
-    cout<<"1, if you want to write; 2, if you want random"<<endl;
-    cin>>c;
+    cout << "1, if you want to write; 2, if you want random" << endl;
+    cin >> c;
     if (c==2){
         matrix_random(arr, b, n);
         print_matrix(arr, b, n);
@@ -150,18 +150,26 @@ int main(){
     }
     else 
         cout << "error";
+        
     
-    forward(arr, b, n);
+    double** arr_c=new double*[n];
+    for (int i=0;i<n;i++){
+        arr_c[i]=new double[n];
+        for (int j=0; j<n; j++){
+            arr_c[i][j]=arr[i][j];
+        }
+    }
+forward(arr, b, n);
     back(arr, b, x, n);
     cout << "RESULT: " << endl;
     for (int i=0; i<n; i++){
         cout << "x" << i+1 << "=" << x[i] << " " << endl;
     }
     
-    checka (arr, x, check, n);
+    checka (arr_c, x, check, n);
     cout << " " << endl;
     
-    pogresha(arr, check, pogresh, n);
+    pogresha(b_copy, check, pogresh, n);
     cout << "CHECK: " << endl;
     for (int i=0; i<n; i++){
         cout << pogresh[i] << endl;
@@ -176,6 +184,7 @@ int main(){
     delete[] arr;
     delete[] b;
     delete[] x;
+    delete [] arr_c;
     delete[] arr_copy;
     delete[] b_copy;
     
